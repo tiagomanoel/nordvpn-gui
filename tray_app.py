@@ -1,6 +1,6 @@
 import os
 import locale
-from PyQt5.QtWidgets import QMainWindow, QAction, QSystemTrayIcon, QMenu, QWidget, QVBoxLayout, QPushButton, QLabel, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QAction, QSystemTrayIcon, QMenu, QWidget, QVBoxLayout, QPushButton, QLabel, QComboBox, QScrollArea
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -157,9 +157,20 @@ class TrayApp(QMainWindow):
         layout.addWidget(self.country_label)
 
         self.country_selector = QComboBox(self.window)
-        self.country_selector.addItems(self.get_countries())
-        self.country_selector.currentIndexChanged.connect(self.on_country_changed)
-        layout.addWidget(self.country_selector)
+        self.setup_country_selector()
+        
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        
+        content = QWidget()
+        layout_content = QVBoxLayout(content)
+        layout_content.addWidget(self.country_selector)
+        
+        scroll.setWidget(content)
+        layout.addWidget(scroll)
+        
+        self.country_selector.setMaxVisibleItems(3)  # Limitar para 3 opções visíveis
+        self.country_selector.setStyleSheet("QComboBox { min-width: 150px; }")  # Definir largura mínima
 
         self.connect_disconnect_button = QPushButton(self.translations["connect"], self.window)
         self.connect_disconnect_button.setIcon(QIcon.fromTheme("network-vpn-disconnected"))
@@ -167,6 +178,11 @@ class TrayApp(QMainWindow):
         layout.addWidget(self.connect_disconnect_button)
 
         self.window.setLayout(layout)
+
+    def setup_country_selector(self):
+        countries = self.get_countries()
+        for country in countries:
+            self.country_selector.addItem(country)
 
     def on_tray_icon_activated(self, reason):
         if reason == QSystemTrayIcon.Trigger:

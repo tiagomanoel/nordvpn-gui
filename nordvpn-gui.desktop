@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=NordVPN GUI
+Comment=Control NordVPN from system tray
+Exec=/opt/nordvpn-gui/nordvpn-gui
+Icon=/opt/nordvpn-gui/nordvpn.png
+Terminal=false
+Type=Application
+Categories=Network;Security;
