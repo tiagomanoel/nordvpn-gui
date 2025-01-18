@@ -22,10 +22,31 @@ A graphical interface for controlling NordVPN.
 2. Install the dependencies:
 
     ```bash
-    sudo pacman -S python python-pyqt5 nordvpn-bin
+    sudo pacman -S python python-pyqt5
     ```
 
-3. Run the application:
+3. Install `nordvpn-bin` from AUR:
+
+    ```bash
+    git clone https://aur.archlinux.org/nordvpn-bin.git
+    cd nordvpn-bin
+    makepkg -si
+    ```
+
+4. Copy the application files to `/opt`:
+
+    ```bash
+    sudo mkdir -p /opt/nordvpn-gui
+    sudo cp -r * /opt/nordvpn-gui/
+    ```
+
+5. Create a launcher in the system:
+
+    ```bash
+    sudo cp nordvpn-gui.desktop /usr/share/applications/
+    ```
+
+6. Run the application:
 
     ```bash
     python /opt/nordvpn-gui/main.py
